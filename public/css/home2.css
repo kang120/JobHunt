@@ -1,0 +1,76 @@
+body{
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+.header{
+    flex: 0 1 auto;
+}
+
+main{
+    background-image: url("https://image.freepik.com/free-photo/nice-watercolor-background_24837-261.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 80px 20% 100px 20%;
+    text-align: center;
+    flex: 1 1 auto;
+}
+
+.search-container{
+    margin-top: 15%;
+    display: flex;
+    align-items: center;
+}
+
+.search-form{
+    width: 100%;
+}
+
+.searchbar{
+    width: 80%;
+    height: 40px;
+    border: 1px solid black;
+    outline: none;
+    border-radius: 5px;
+    padding: 5px 50px;
+    font-size: 15px;
+}
+
+.searchbar:focus{
+    border-width: 2px;
+}
+
+/*
+.input-icon{
+    position: absolute; 
+    top: 50%; 
+    left: 0;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+*/
+
+.search-icon{
+    position: absolute;
+    top: 48%;
+    left: 0;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    padding-left: 30px;
+}
+
+.search-btn{
+    width: 15%; 
+    height: 100%;
+    background: rgb(55, 115, 212);
+    border: none;
+    border-radius: 7px;
+    color: white;
+    margin-left: 30px;
+    cursor: pointer;
+}
+
+.search-btn:hover{
+    background: rgb(70, 130, 227);
+}
