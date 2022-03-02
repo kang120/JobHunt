@@ -20,8 +20,9 @@ class JobModel extends Model{
         foreach($jobs as $key => $job){
             $company_id = $job["COMPANY_ID"];
 
-            $query = $db->query("SELECT PHOTO,LOCATION FROM COMPANY WHERE COMPANY_ID=$company_id");
+            $query = $db->query("SELECT NAME,PHOTO,LOCATION FROM COMPANY WHERE COMPANY_ID=$company_id");
 
+            $jobs[$key]["COMPANY_NAME"] = $query->getResult()[0]->NAME;
             $jobs[$key]["PHOTO"] = $query->getResult()[0]->PHOTO;
             $jobs[$key]["LOCATION"] = $query->getResult()[0]->LOCATION;
         }
