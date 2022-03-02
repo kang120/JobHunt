@@ -41,24 +41,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="job-container">
-                        <div style="width: 300px; height: 200px">
-                            <img src="<?= $job["PHOTO"] ?>" style="width: 100%; height: 100%;">
-                        </div>
-                        <div class="job-description">
-                            <h2><?= $job["TITLE"] ?></h2>
-                            <p style="color: gray; margin-top: 5px;"><?= $job["COMPANY_NAME"] ?></p><br>
-                            
-                            
-                            <div style="display: flex; align-items: center; margin-bottom: 20px;">
-                                <i class="fa-solid fa-location-dot fa-lg"></i><b style="margin-left: 10px; font-size: 1.3em;"><?= $job["LOCATION"] ?></b>
-                            </div>
-                            <div style="display: flex; align-items: center;">
-                                <i class="fa-solid fa-money-bill-wave fa-lg"></i><p style="margin-left: 10px; font-size: 1.0em;"><?= $job["SALARY"] ?></p>
-                            </div>
-                        </div>
-                    </div>
                 <?php endforeach ?>
             </div>
         </div>
