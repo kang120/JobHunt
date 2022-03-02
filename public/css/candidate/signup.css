@@ -1,0 +1,69 @@
+main{
+    text-align: center;
+    padding-top: 40px;
+    font-family: Trebuchet MS;
+}
+
+form{
+    border: 1px solid rgb(216, 222, 228);
+    border-radius: 5px;
+    background: rgb(246, 248, 250);
+    margin: auto;
+    margin-top: 20px;
+    padding: 25px 45px 15px 45px;
+    width: 25%;
+    text-align: left;
+}
+
+td{
+    padding-bottom: 15px;
+}
+
+input[type=text], input[type=password]{
+    margin-top: 6px;
+    border: 1px solid rgb(208, 215, 222);
+    border-radius: 5px;
+    height: 30px;
+    padding: 15px 12px;
+}
+
+label{
+    font-size: 0.9em;
+}
+
+.error-msg{
+    color: red;
+    font-size: 0.7em;
+    margin-top: 3px;
+}
+
+input[type=submit]{
+    margin-top: 15px;
+    padding: 8px 5px;
+    border: 1px solid rgb(208, 215, 222);
+    border-radius: 5px;
+    background: rgb(73, 179, 133);
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+input[type=submit]:hover{
+    background: rgb(45, 164, 78);
+}
+
+hr{
+    border: none;
+    height: 2px;
+    color: rgb(227, 227, 227);
+    background: rgb(227, 227, 227);   
+}
+
+.login-option{
+    text-decoration: none;
+    color: rgb(9, 105, 218);
+}
+
+.login-option:hover{
+    text-decoration: underline;
+}

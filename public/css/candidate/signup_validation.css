@@ -1,0 +1,48 @@
+main{
+    text-align: center;
+    padding-top: 70px;
+    font-family: Trebuchet MS;
+}
+
+.numbers-container{
+    display: flex;
+    align-items: center;
+    margin: auto;
+    margin-top: 50px;
+    padding-right: 10px;
+    width: fit-content;
+    cursor: text;
+}
+
+input[type=number]{
+    background: white;
+    border: 1px solid black;
+    border-radius: 5px;                   
+    width: 70px;
+    height: 80px;
+    margin-left: 10px;
+    text-align: center;
+    cursor: text;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.resend-email-btn{
+    margin-left: 10px;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.resend-email-btn:hover{
+    color: rgb(59, 121, 255);
+}

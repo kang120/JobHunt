@@ -6,6 +6,7 @@
 
 <?php $this->section("content") ?>
     <link rel="stylesheet" href=<?= base_url("css/home.css") ?>>
+    
     <main>
         <div class="search-container">
             <div class="search-form">

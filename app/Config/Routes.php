@@ -32,9 +32,19 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
-$routes->get('/home2', 'Home::home2');
-$routes->get('/search_job', 'Home::search_job');
+$routes->get('/', 'HomeController::index');
+$routes->get('/home2', 'HomeController::home2');
+$routes->get('/search_job', 'HomeController::search_job');
+
+// Candidate Site
+$routes->get('/candidate/signup', 'CandidateController::signup');
+$routes->post('/candidate/signup', 'CandidateController::signup');
+$routes->get('/candidate/signup/validation', 'CandidateController::signup_validation');
+$routes->post('/candidate/signup/validation', 'CandidateController::signup_validation');
+$routes->get('/candidate/signup/setup_profile', 'CandidateController::setup_profile');
+$routes->get('/candidate/profile', 'CandidateController::profile');
+
+$routes->get('/test', 'HomeController::test');
 
 /*
  * --------------------------------------------------------------------

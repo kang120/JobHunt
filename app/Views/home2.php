@@ -6,7 +6,7 @@
 
 <?php $this->section("content") ?>
     <link rel="stylesheet" href=<?= base_url("css/home2.css") ?>>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <main>
         <h1 style="font-size: 10.0em;">Job Hunt</h1>
         <div class="search-container">
@@ -17,7 +17,7 @@
                         <div style="position: relative">
                             <input id="searchbar" class="searchbar" name="query" type="text" placeholder="Job Title">
                             <!-- <ion-icon name="locate-outline" class="input-icon"></ion-icon> -->
-                            <i class="fa fa-search search-icon"></i>
+                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
                             <input class="search-btn" type="submit" value="Search">
                         </div>
                     </form>
