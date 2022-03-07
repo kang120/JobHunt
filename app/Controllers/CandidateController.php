@@ -232,4 +232,67 @@ class CandidateController extends BaseController
 
         return view("candidate/profile/profile_overview", $data);
     }
+
+    // always POST method
+    public function add_education(){
+        $validation = $this->validate([
+            'university_name' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '* This field is required'
+                ]
+            ],
+            'graduation_month' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '* This field is required'
+                ]
+            ],
+            'graduation_year' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '* This field is required'
+                ]
+            ],
+            'course' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '* This field is required'
+                ]
+            ],
+            'university_location' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => '* This field is required',
+                ]
+            ]
+        ]);
+
+        $candidate_id = session()->get("currentUser")["CANDIDATE_ID"];
+        $profileModel = new ProfileModel();
+        $profile = $profileModel->getProfile($candidate_id);
+
+        // invalid input
+        if(!$validation){
+            $data = [
+                "tab" => "education",
+                "profile" => null,
+                "validation" => $this->validator,
+                "university_name" => $_POST["university_name"],
+                "graduation_month" => $_POST["graduation_month"],
+                "graduation_year" => $_POST["graduation_year"],
+                "course" => $_POST["course"],
+                "university_location" => $_POST["university_location"]
+            ];
+            
+            return view("candidate/profile/profile_education", $data);
+        }
+
+        $data = [
+            "tab" => "education",
+            "profile" => null
+        ];
+
+        return view("candidate/profile/profile_education", $data);
+    }
 }

@@ -1,4 +1,35 @@
 .btn{
     padding: 10px 15px;
     border: none;
+    border-radius: 5px;
+    cursor: hand;
+}
+
+.btn-gray{
+    background: #F6F8FA;
+    border: 1px solid #D5D8DA;
+}
+
+.btn-gray:hover{
+    cursor: hand;
+    background: #f5f5f5;
+}
+
+.btn-primary{
+    background: #007BFF;
+    color: white;
+}
+
+.btn-primary:hover{
+    background: #2273c9;
+}
+
+.btn-success{
+    background: #1cb87f;
+    color: white;
+}
+
+.btn-success:hover{
+    cursor: hand;
+    background: #26c98e;
 }

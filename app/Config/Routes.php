@@ -46,6 +46,8 @@ $routes->post('/candidate/signup/validation', 'CandidateController::signup_valid
 $routes->get('/candidate/signup/setup_profile', 'CandidateController::setup_profile');
 $routes->get('/candidate/profile', 'CandidateController::profile');
 
+$routes->post('/candidate/profile/education', 'CandidateController::add_education');
+
 $routes->get('/test', 'HomeController::test');
 
 /*

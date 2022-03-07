@@ -70,6 +70,7 @@
                         <?php endif ?>
                     </tr>
                 </table>
+                <button class="btn btn-gray" style="margin-top: 20px; width: 80%;">Edit profile</button>
             </div>
             <div class="profile-detail">
                 <?php $this->renderSection("profile-detail") ?>
