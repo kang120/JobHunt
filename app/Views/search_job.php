@@ -26,7 +26,7 @@
                 <?php foreach($jobs as $job): ?>
                     <div class="job-container">
                         <div style="width: 300px; height: 200px">
-                            <img src="<?= $job["PHOTO"] ?>" style="width: 100%; height: 100%;">
+                            <img src="data:image/jpeg;base64, <?= base64_encode($job["PHOTO"]) ?>" style="width: 100%; height: 100%;">
                         </div>
                         <div class="job-description">
                             <h2><?= $job["TITLE"] ?></h2>
@@ -45,7 +45,4 @@
             </div>
         </div>
     </main>
-
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 <?php $this->endSection() ?>

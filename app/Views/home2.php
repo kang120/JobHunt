@@ -15,7 +15,7 @@
                 <div style="height: 40px;">
                     <form method="GET" action="<?= base_url("search_job") ?>">
                         <div style="position: relative">
-                            <input id="searchbar" class="searchbar" name="query" type="text" placeholder="Job Title">
+                            <input id="searchbar" class="searchbar" name="query" type="text" placeholder="Job Title" autocomplete="off">
                             <!-- <ion-icon name="locate-outline" class="input-icon"></ion-icon> -->
                             <i class="fa-solid fa-magnifying-glass search-icon"></i>
                             <input class="search-btn" type="submit" value="Search">
@@ -32,7 +32,4 @@
             console.log(value);
         }
     </script>
-
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 <?php $this->endSection() ?>

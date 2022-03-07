@@ -14,19 +14,19 @@
                 <tr>
                     <td style="width: 50%;">
                         <label>First Name</label><br>
-                        <input name="firstname" type="text" style="width: 90%;"><br>
+                        <input name="firstname" value="<?= isset($validation) ? $firstname : "" ?>" type="text" style="width: 90%;"><br>
                         <div class="error-msg"><?= isset($validation) ? $validation->getError("firstname") : "" ?></div>
                     </td>                              
                     <td style="width: 50%; vertical-align: top;">
                         <label style="padding-left: 10%">Last Name</label><br>
-                        <input name="lastname" type="text" style="width: 90%; margin-left: 10%;"><br>
+                        <input name="lastname" value="<?= isset($validation) ? $lastname : "" ?>" type="text" style="width: 90%; margin-left: 10%;"><br>
                         <div class="error-msg" style="margin-left: 10%;"><?= isset($validation) ? $validation->getError("lastname") : "" ?></div>
                     </td>
                 </tr>
                 <tr>
                     <td colspan=2>
                         <label>Email</label><br>
-                        <input id="email" name="email" type="text" style="width: 100%"><br>
+                        <input id="email" name="email" value="<?= isset($validation) ? $email : "" ?>" type="text" style="width: 100%"><br>
                         <div class="error-msg"><?= isset($validation) ? $validation->getError("email") : "" ?></div>
                     </td>
                 </tr>
@@ -53,7 +53,7 @@
             <hr>
             <div style="margin-top: 15px;">
                 <span>Already has account?</span>
-                <span style="margin-left: 7px;"><a class="login-option" href="#">Log in</a></span>
+                <span style="margin-left: 7px;"><a class="login-option" href="<?= base_url("candidate/login") ?>">Log in</a></span>
             </div>
         </form>
     </main>

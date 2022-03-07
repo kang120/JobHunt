@@ -4,7 +4,7 @@ use CodeIgniter\Model;
 
 class JobModel extends Model{
     protected $table = "job";
-    protected $primaryKey = "company_id";
+    protected $primaryKey = "job_id";
     protected $field = ["title", "salary", "description", "scope", "requirement", "type", "specialization", "qualification", "career_level", "company_id", "company_name"];
 
     public function getJobs(){

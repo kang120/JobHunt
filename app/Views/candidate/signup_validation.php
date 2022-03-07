@@ -57,7 +57,7 @@
         window.onload = function(){
             var send_email = "<?= isset($send_email) ? "no" : "yes" ?>";
 
-            if(send_email != "no"){   // if wrong input, it will not send email again
+            if(send_email != "no"){   // if wrong input, it will not reset verification number and not send email again
                 sendVerificationToEmail();
             }
 

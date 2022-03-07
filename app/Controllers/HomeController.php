@@ -6,12 +6,13 @@ use App\Models\JobModel;
 
 class HomeController extends BaseController
 {
-	public function index()
-	{
-		return view("home");
-	}
+	public function home(){
+		if(isset($_GET["status"]) && $_GET["status"] == "signout"){
+			session()->remove("currentUser");
 
-	public function home2(){
+			return redirect()->to(base_url());
+		}
+
 		return view("home2");
 	}
 

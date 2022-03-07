@@ -1,0 +1,51 @@
+.success-notice{
+    background: #9dd487;
+    color: white;
+    font-size: 1.1em;;
+    width: 400px;
+    margin: auto;
+    padding: 10px 5px;
+    border-radius: 1%;
+    border: 2px solid #8ec777;
+}
+
+.container{
+    width: 600px;
+    margin: auto;
+    margin-top: 50px;
+    padding: 40px;
+    border: 5px solid black;
+    border-radius: 7%;
+}
+
+.option-box{
+    margin-top: 60px;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.skip-btn{
+    color: #1a99d9;
+    text-decoration: none;
+}
+
+.skip-btn:hover{
+    text-decoration: underline;
+}
+
+.setup-btn{
+    margin-left: auto;
+    background: #327aed;
+    color: white;
+    border-radius: 3%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.setup-btn:hover{
+    cursor: hand;
+    background: #2065d4;
+}

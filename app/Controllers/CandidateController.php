@@ -1,11 +1,68 @@
 <?php
 
 namespace App\Controllers;
+use App\Models\CandidateModel;
 use App\Models\ProfileModel;
 use App\Libraries\Utilities;
 
 class CandidateController extends BaseController
 {
+    public function login(){
+        helper("url");
+
+        if($_POST){
+            $validation = $this->validate([
+                'email' => [
+                    'rules' => 'required|valid_email|is_not_unique[candidate.email]',
+                    'errors' => [
+                        'required' => '* This field is required',
+                        'valid_email' => '* Email is invalid',
+                        'is_not_unique' => '* Account does not exist'
+                    ]
+                ],
+                'password' => [
+                    'rules' => 'required|min_length[8]|max_length[20]|alpha_numeric_punct',
+                    'errors' => [
+                        'required' => '* This field is required',
+                        'min_length' => '* Password must be 8-20 characters including numbers(0-9) and letters(a-z)',
+                        'max_length' => '* Password must be 8-20 characters including numbers(0-9) and letters(a-z)'
+                    ]
+                ]
+            ]);
+            
+            // invalid input
+            if(!$validation){
+                $data = [
+                    "email" => $_POST["email"],
+                    "validation" => $this->validator
+                ];
+    
+                return view("candidate/login", $data);
+            }else{   // valid input and check password
+                $candidateModel = new CandidateModel();
+                
+                $email = $_POST["email"];
+                $inputPassword = $_POST["password"];
+
+                $currentUser = $candidateModel->getCandidateByEmail($email);
+
+                if($inputPassword == $currentUser["PASSWORD"]){
+                    session()->set("currentUser", $currentUser);
+                    return redirect()->to(base_url());
+                }else{
+                    $data = [
+                        "email" => $_POST["email"],
+                        "passwordError" => "Incorrect password"
+                    ];
+
+                    return view("candidate/login", $data);
+                }
+            }
+        }else{
+            return view("candidate/login");
+        }
+    }
+
 	public function signup()
 	{
         helper("url");
@@ -25,7 +82,7 @@ class CandidateController extends BaseController
                     ]
                 ],
                 'email' => [
-                    'rules' => 'required|valid_email',
+                    'rules' => 'required|valid_email|is_unique[candidate.email]',
                     'errors' => [
                         'required' => '* This field is required',
                         'valid_email' => '* Email is invalid',
@@ -52,6 +109,9 @@ class CandidateController extends BaseController
             // invalid input
             if(!$validation){
                 $data = [
+                    "firstname" => $_POST["firstname"],
+                    "lastname" => $_POST["lastname"],
+                    "email" => $_POST["email"],
                     "validation" => $this->validator
                 ];
     
@@ -59,7 +119,15 @@ class CandidateController extends BaseController
             }else{   // valid input and go to email validation
                 $email = $_POST["email"];
 
+                $tempUser = [
+                    "first_name" => $_POST["firstname"],
+                    "last_name" => $_POST["lastname"],
+                    "email" => $_POST["email"],
+                    "password" => $_POST["password"]
+                ];
+
                 session()->setTempdata("signup_email", $email, 1200);
+                session()->set("tempUser", $tempUser);
 
                 return redirect()->to(base_url() . "/candidate/signup/validation?email=".$email)->with("is_signup", true);
             }
@@ -82,6 +150,17 @@ class CandidateController extends BaseController
     
                 // correct validation
                 if($verificationNumber && $_POST["input"] == $verificationNumber){
+                    $currentUser = session()->get("tempUser");
+                    session()->remove("tempUser");
+
+                    // create new user in database
+                    $candidateModel = new CandidateModel();
+                    $candidateId = $candidateModel->createCandidate($currentUser);
+
+                    // set current user to session data
+                    $currentUser = $candidateModel->getCandidateById($candidateId);
+                    session()->set("currentUser", $currentUser);
+
                     return redirect()->to(base_url() . "/candidate/signup/setup_profile");
                 }else{   // wrong validation
                     return view("candidate/signup_validation", ["send_email" => "no"]);
@@ -114,16 +193,43 @@ class CandidateController extends BaseController
     }
 
     public function setup_profile(){
-        echo session()->get("signup_verification");
+        // first setup, so no profile in database
+        $data = [
+            "tab" => "overview",
+            "profile" => null
+        ];
+
+        return view("candidate/profile/profile_overview", $data);
     }
 
     public function profile(){
+        $currentUser = session()->get("currentUser");
+        $userId = $currentUser["CANDIDATE_ID"];
+
         $profileModel = new ProfileModel();
+        $profile = $profileModel->getProfile($userId);
 
-        $profiles = $profileModel->getProfiles();
+        $data = [
+            "tab" => "overview",
+            "profile" => $profile
+        ];
 
-        $data = ["profiles" => $profiles];
+        if(isset($_GET["tab"])){
+            if($_GET["tab"] == "education"){
+                $data["tab"] = "education";
+                return view("candidate/profile/profile_education", $data);
+            }else if($_GET["tab"] == "experience"){
+                $data["tab"] = "experience";
+                return view("candidate/profile/profile_experience", $data);
+            }else if($_GET["tab"] == "skills"){
+                $data["tab"] = "skills";
+                return view("candidate/profile/profile_skills", $data);
+            }else if($_GET["tab"] == "language"){
+                $data["tab"] = "language";
+                return view("candidate/profile/profile_language", $data);
+            }
+        }
 
-        return view("candidate/profile", $data);
+        return view("candidate/profile/profile_overview", $data);
     }
 }

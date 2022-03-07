@@ -59,3 +59,39 @@
 .employer-nav:hover{
     background: rgb(166, 206, 245);
 }
+
+.profile-nav{
+    display: flex;
+    align-items: center;
+}
+
+.profile-nav:hover{
+    cursor: hand;
+}
+
+#user-dropdown{
+    display: none;
+    position: absolute;
+    right: 0;
+    margin-right: 5%;
+    border: 1px solid #e3e3e3;
+    border-radius: 4%;
+    font-size: 1em;
+    background: white;
+    z-index: 1;
+}
+
+.dropdown-box{
+    padding: 15px 20px;
+    width: 150px;
+}
+
+.dropdown-box:hover{
+    cursor: hand;
+    background: #ededed;
+}
+
+hr{
+    border: none;
+    border-top: 1px solid #e3e3e3;
+}
