@@ -19,6 +19,8 @@
                 <div class="nav nav-right">
                     <a class="nav-item" href="">Login</a>
                     <a class="nav-item" href="<?= base_url("candidate/signup") ?>">Sign up</a>
+
+                    <a class="nav-item" href="<?= base_url("employer/profile?employer_login_id=3") ?>">employer profile</a>
                     <a class="employer-nav" href="">I'm Employer</a>
                 </div>
             </div>
