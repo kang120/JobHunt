@@ -33,3 +33,13 @@
     cursor: hand;
     background: #26c98e;
 }
+
+.btn-danger{
+    background: #e04728;
+    color: white;
+}
+
+.btn-danger:hover{
+    cursor: hand;
+    background: #db5d44;
+}

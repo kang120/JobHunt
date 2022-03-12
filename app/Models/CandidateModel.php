@@ -32,6 +32,10 @@ class CandidateModel extends Model{
     public function createCandidate($candidate){
         return $this->insert($candidate, true);
     }
+
+    public function updateCandidate($candidate_id, $data){
+        $this->update($candidate_id, $data);
+    }
 }
 
 ?>

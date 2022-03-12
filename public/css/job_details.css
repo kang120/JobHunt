@@ -1,0 +1,52 @@
+.job-container{
+    padding-left: 15%;
+    padding-right: 15%;
+    padding-top: 50px;
+}
+
+.job-header{
+    width: 100%;
+    border: 1px solid #f0f0f0;
+    padding: 30px 45px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.job-title-box{
+    margin-left: 50px;
+}
+
+.right-box{
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+    text-align: center;
+}
+
+.jobtype-label{
+    padding: 5 25px;
+    border-radius: 20px;
+    color: #f5f5f5;
+    margin-left: 25px;
+}
+
+.fulltime-label{
+    background: #007BFF;
+}
+
+.parttime-label{
+    background: #1ac414;
+}
+
+.internship-label{
+    background: #de3131;
+}
+
+.job-body{
+    width: 100%;
+    border: 1px solid #f0f0f0;
+    padding: 50px 45px;
+    margin-top: 20px;
+}

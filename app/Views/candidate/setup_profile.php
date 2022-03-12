@@ -14,10 +14,10 @@
             <div class="container">
                 <img src="<?= base_url("assets/blank_profile.png") ?>" width="150px" height="150px" style="border-radius: 50%"><br>
                 <div style="margin-top: 40px; font-size: 2em">Set up your profile to let employers know more about you</div>
-                <div class="option-box">
+                <form method="GET" action="<?= base_url('candidate/profile') ?>" class="option-box">
                     <a class="skip-btn" href="<?= base_url() ?>">Skip</a>
                     <button class="btn setup-btn">Setup now</button>
-                </div>
+                </form>
             </div>
         </div>
     </main>

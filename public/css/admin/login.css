@@ -1,0 +1,22 @@
+body{
+    height: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding-top: 10%;
+    background: #f7f7f7;
+}
+
+input[type=text]{
+    margin-top: 20px;
+    width: 70%;
+    height: 30px;
+    padding: 15px 10px;
+}
+
+.error-msg{
+    color: red;
+    margin-top: 5px;
+    text-align: left;
+    margin-left: 15%;
+    font-size: 0.8em;
+}

@@ -4,6 +4,8 @@ namespace App\Controllers;
 use App\Models\CandidateModel;
 use App\Models\ProfileModel;
 use App\Libraries\Utilities;
+use App\Models\ApplicationModel;
+use App\Models\CandidateInquiryModel;
 
 class CandidateController extends BaseController
 {
@@ -33,6 +35,7 @@ class CandidateController extends BaseController
             // invalid input
             if(!$validation){
                 $data = [
+                    "currentUser" => null,
                     "email" => $_POST["email"],
                     "validation" => $this->validator
                 ];
@@ -51,6 +54,7 @@ class CandidateController extends BaseController
                     return redirect()->to(base_url());
                 }else{
                     $data = [
+                        "currentUser" => null,
                         "email" => $_POST["email"],
                         "passwordError" => "Incorrect password"
                     ];
@@ -59,12 +63,15 @@ class CandidateController extends BaseController
                 }
             }
         }else{
-            return view("candidate/login");
+            $data = [
+                "currentUser" => null,
+            ];
+
+            return view("candidate/login", $data);
         }
     }
 
-	public function signup()
-	{
+	public function signup(){
         helper("url");
 
         if($_POST){
@@ -109,6 +116,7 @@ class CandidateController extends BaseController
             // invalid input
             if(!$validation){
                 $data = [
+                    "currentUser" => null,
                     "firstname" => $_POST["firstname"],
                     "lastname" => $_POST["lastname"],
                     "email" => $_POST["email"],
@@ -120,6 +128,7 @@ class CandidateController extends BaseController
                 $email = $_POST["email"];
 
                 $tempUser = [
+                    "currentUser" => null,
                     "first_name" => $_POST["firstname"],
                     "last_name" => $_POST["lastname"],
                     "email" => $_POST["email"],
@@ -132,18 +141,26 @@ class CandidateController extends BaseController
                 return redirect()->to(base_url() . "/candidate/signup/validation?email=".$email)->with("is_signup", true);
             }
         }else{
-            return view("candidate/signup");
+            $data = [
+                "currentUser" => null
+            ];
+
+            return view("candidate/signup", $data);
         }
 	}
 
     public function signup_validation(){
+        $data = [
+            "currentUser" => null
+        ];
+
         // first time entry
         if(session()->getFlashdata("is_signup")){
             $verificationNumber = Utilities::getValidationNumber();
 
             session()->setTempdata("signup_verification", $verificationNumber, 300);
     
-            return view("candidate/signup_validation");
+            return view("candidate/signup_validation", $data);
         }else if($_POST){    // check input or resend email
             if($_POST["status"] == "submit"){
                 $verificationNumber = session()->getTempdata("signup_verification");
@@ -161,16 +178,21 @@ class CandidateController extends BaseController
                     $currentUser = $candidateModel->getCandidateById($candidateId);
                     session()->set("currentUser", $currentUser);
 
+                    // create user profile in database
+                    $profileModel = new ProfileModel();
+                    $profileModel->createProfile($candidateId);
+
                     return redirect()->to(base_url() . "/candidate/signup/setup_profile");
                 }else{   // wrong validation
-                    return view("candidate/signup_validation", ["send_email" => "no"]);
+                    $data["send_email"] = "no";
+                    return view("candidate/signup_validation", $data);
                 }
             }else if($_POST["status"] == "resend"){   // resend email
                 $verificationNumber = Utilities::getValidationNumber();
 
                 session()->setTempdata("signup_verification", $verificationNumber, 300);
         
-                return view("candidate/signup_validation");
+                return view("candidate/signup_validation", $data);
             }
         }else{   // prevent access before sign up form
             return redirect()->to(base_url() . "/candidate/signup");
@@ -193,106 +215,76 @@ class CandidateController extends BaseController
     }
 
     public function setup_profile(){
-        // first setup, so no profile in database
-        $data = [
-            "tab" => "overview",
-            "profile" => null
-        ];
-
-        return view("candidate/profile/profile_overview", $data);
-    }
-
-    public function profile(){
         $currentUser = session()->get("currentUser");
-        $userId = $currentUser["CANDIDATE_ID"];
 
-        $profileModel = new ProfileModel();
-        $profile = $profileModel->getProfile($userId);
-
-        $data = [
-            "tab" => "overview",
-            "profile" => $profile
-        ];
-
-        if(isset($_GET["tab"])){
-            if($_GET["tab"] == "education"){
-                $data["tab"] = "education";
-                return view("candidate/profile/profile_education", $data);
-            }else if($_GET["tab"] == "experience"){
-                $data["tab"] = "experience";
-                return view("candidate/profile/profile_experience", $data);
-            }else if($_GET["tab"] == "skills"){
-                $data["tab"] = "skills";
-                return view("candidate/profile/profile_skills", $data);
-            }else if($_GET["tab"] == "language"){
-                $data["tab"] = "language";
-                return view("candidate/profile/profile_language", $data);
-            }
+        if($currentUser == null){
+            return redirect()->to(base_url("candidate/login"));
         }
 
-        return view("candidate/profile/profile_overview", $data);
+        $data = [
+            "currentUser" => $currentUser
+        ];
+
+        return view("candidate/setup_profile", $data);
     }
 
-    // always POST method
-    public function add_education(){
-        $validation = $this->validate([
-            'university_name' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '* This field is required'
-                ]
-            ],
-            'graduation_month' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '* This field is required'
-                ]
-            ],
-            'graduation_year' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '* This field is required'
-                ]
-            ],
-            'course' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '* This field is required'
-                ]
-            ],
-            'university_location' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '* This field is required',
-                ]
-            ]
-        ]);
+    public function inquiry(){
+        $currentUser = session()->get("currentUser");
 
-        $candidate_id = session()->get("currentUser")["CANDIDATE_ID"];
-        $profileModel = new ProfileModel();
-        $profile = $profileModel->getProfile($candidate_id);
-
-        // invalid input
-        if(!$validation){
-            $data = [
-                "tab" => "education",
-                "profile" => null,
-                "validation" => $this->validator,
-                "university_name" => $_POST["university_name"],
-                "graduation_month" => $_POST["graduation_month"],
-                "graduation_year" => $_POST["graduation_year"],
-                "course" => $_POST["course"],
-                "university_location" => $_POST["university_location"]
-            ];
-            
-            return view("candidate/profile/profile_education", $data);
+        if($currentUser == null){
+            return redirect()->to("candidate/login");
         }
 
+        $inquiryModel = new CandidateInquiryModel();
+
+        if($_POST){
+            $question = $_POST["question"];
+
+            if($question != ""){
+                $data = [
+                    "question" => $question,
+                    "candidate_id" => $currentUser["CANDIDATE_ID"]
+                ];
+
+                $inquiryModel->createInquiry($data);
+            }
+
+            return redirect()->to("candidate/inquiry");
+        }
+        
+        $inquiries = $inquiryModel->getInquiryByCandidateId($currentUser["CANDIDATE_ID"]);
+
         $data = [
-            "tab" => "education",
-            "profile" => null
+            "currentUser" => $currentUser,
+            "inquiries" => $inquiries
         ];
 
-        return view("candidate/profile/profile_education", $data);
+        return view("candidate/inquiry", $data);
+    }
+
+    public function job_application(){
+        $currentUser = session()->get("currentUser");
+
+        if($currentUser == null){
+            return redirect()->to("candidate/login");
+        }
+
+        $applicationModel = new ApplicationModel();
+
+        if($_POST){
+            $application_id = $_POST["application_id"];
+            $applicationModel->deleteApplication($application_id);
+
+            return redirect()->to(base_url("candidate/job/application"));
+        }
+
+        $applications = $applicationModel->getApplicationByCandidateId($currentUser["CANDIDATE_ID"]);
+
+        $data = [
+            "currentUser" => $currentUser,
+            "applications" => $applications
+        ];
+
+        return view("candidate/job_application", $data);
     }
 }

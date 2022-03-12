@@ -8,6 +8,9 @@
     padding-right: 5%;
     background: rgb(142, 189, 191);
     font-size: 1.2em;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 
 .navbar{
