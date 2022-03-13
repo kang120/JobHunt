@@ -15,10 +15,10 @@ main{
 }
 
 .search-container{
-    background-image: url("https://image.freepik.com/free-photo/nice-watercolor-background_24837-261.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    padding: 40px 15% 40px 15%;
+    background: #e6eff2;
+    padding: 40px;
+    margin-left: 15%;
+    margin-right: 15%;
     flex: 0 1 auto;
 }
 

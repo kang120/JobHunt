@@ -34,8 +34,11 @@ class ProfileModel extends Model{
     }
 
     public function createProfile($candidate_id){
+        $file = file_get_contents(base_url("assets/blank_profile.png"));
+
         $profile = [
-            "candidate_id" => $candidate_id
+            "candidate_id" => $candidate_id,
+            "photo" => $file
         ];
 
         return $this->insert($profile, true);

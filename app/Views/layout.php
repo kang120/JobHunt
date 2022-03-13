@@ -1,6 +1,10 @@
 <html>
     <head>
-        <?php $this->renderSection("title") ?>
+        <?php
+
+use App\Models\ProfileModel;
+
+ $this->renderSection("title") ?>
         <link rel="stylesheet" href=<?= base_url("css/main.css") ?>>
         <link rel="stylesheet" href=<?= base_url("css/button.css") ?>>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -10,6 +14,15 @@
     </head>
 
     <body>
+        <?php 
+            $profile = null;
+            
+            if($currentUser != null){
+                $profileModel = new ProfileModel();
+                $profile = $profileModel->getProfileByCandidateId($currentUser["CANDIDATE_ID"]);
+            }
+        ?>
+
         <div class="header">
             <div class="navbar">
                 <img class="logo" src="<?= base_url("assets/logo.png") ?>">
@@ -29,7 +42,7 @@
                     <?php else: ?>
                         <div id="profile-nav" class="profile-nav">
                             <div style="margin-right: 15px"><?= session()->get("currentUser")["FIRST_NAME"] ?></div>
-                            <img id="profile-nav-img" src="<?= base_url("assets/blank_profile.png") ?>" width="30px" height ="30px" style="border-radius: 50%;">
+                            <img id="profile-nav-img" src="data:image;base64, <?= base64_encode($profile["PHOTO"]) ?>" width="30px" height ="30px" style="border-radius: 50%;">
                             <div id="angle-down" style="padding-left: 10px;"><i class="fa-solid fa-angle-down fa-xs"></i></div>
                         </div>
                     <?php endif ?>
@@ -42,6 +55,7 @@
                 <hr>
                 <div class="dropdown-box" onclick="signout()">Sign out</div>
             </div>
+            <hr>
         </div>
         <?php $this->renderSection("content") ?>
     </body>

@@ -11,6 +11,10 @@
     <script src="<?= base_url("js/search_job.js") ?>"></script>
 
     <main>
+        <div style="text-align: center; font-size: 2.5em; margin-top: 30px; margin-bottom: 20px">
+            <b>Search Job</b>
+        </div>
+
         <div class="search-container">
             <div class="search-form">
                 <form method="GET" style="height: 40px; position: relative">
@@ -117,7 +121,7 @@
                             <?php foreach($jobs as $job): ?>
                                 <a class="job-container" href="<?= base_url('job/details?job_id=' . $job['JOB_ID']) ?>" ?>
                                     <div style="width: 300px; height: 200px">
-                                        <img src="data:image/jpeg;base64, <?= base64_encode($job["PHOTO"]) ?>" style="width: 100%; height: 100%;">
+                                        <img src="data:image;base64, <?= base64_encode($job["PHOTO"]) ?>" style="width: 100%; height: 100%;">
                                     </div>
                                     <div class="job-description">
                                         <h2><?= $job["TITLE"] ?></h2>

@@ -4,9 +4,7 @@
 }
 
 .header{
-    padding-left: 5%;
-    padding-right: 5%;
-    background: rgb(142, 189, 191);
+    background: white;
     font-size: 1.2em;
     position: sticky;
     top: 0;
@@ -15,6 +13,8 @@
 
 .navbar{
     display: flex;
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 .logo{
@@ -43,13 +43,12 @@
 }
 
 .nav-item:hover{
-    background: rgb(178, 213, 214);
+    background: #f7f7f7;
 }
 
 .employer-nav{
     background: rgb(132, 175, 217);
-    border: 2px solid rgb(90, 87, 255);
-    border-radius: 10px;
+    border-radius: 6px;
     text-decoration: none;
     color: black;
     display: flex;

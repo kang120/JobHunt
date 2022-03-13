@@ -16,7 +16,7 @@
                 <div style="height: 40px;">
                     <form method="GET" action="<?= base_url("search_job") ?>">
                         <div style="position: relative">
-                            <input id="searchbar" class="searchbar" name="query" type="text" placeholder="Job Title" autocomplete="off">
+                            <input id="searchbar" class="searchbar" name="title" type="text" placeholder="Job Title" autocomplete="off">
                             <!-- <ion-icon name="locate-outline" class="input-icon"></ion-icon> -->
                             <i class="fa-solid fa-magnifying-glass search-icon"></i>
                             <input class="search-btn" type="submit" value="Search">

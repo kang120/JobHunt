@@ -9,7 +9,7 @@ body{
 }
 
 main{
-    background-image: url("https://image.freepik.com/free-photo/nice-watercolor-background_24837-261.jpg");
+    background-image: url("../assets/homebackground.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     padding: 80px 20% 100px 20%;
