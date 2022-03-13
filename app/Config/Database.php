@@ -32,7 +32,7 @@ class Database extends Config
 	 */
 	public $default = [
 		'DSN'      => '',
-		'hostname' => '127.0.0.1:3307',
+		'hostname' => '127.0.0.1:3306',
 		'username' => 'root',
 		'password' => '',
 		'database' => 'jobhunt',
@@ -47,7 +47,7 @@ class Database extends Config
 		'compress' => false,
 		'strictOn' => false,
 		'failover' => [],
-		'port'     => 3307,
+		'port'     => 3306,
 	];
 
 	/**

@@ -6,6 +6,7 @@ class JobModel extends Model{
     protected $table = "job";
     protected $primaryKey = "job_id";
     protected $field = ["title", "salary", "description", "scope", "requirement", "type", "specialization", "qualification", "career_level", "company_id", "company_name"];
+    protected $allowedFields = ["title", "salary", "description", "scope", "requirement", "type", "specialization", "qualification", "career_level", "company_id", "company_name"];
 
     public function getJobs(){
         return $this->findAll();
@@ -22,6 +23,7 @@ class JobModel extends Model{
 
             $query = $db->query("SELECT NAME,PHOTO,LOCATION FROM COMPANY WHERE COMPANY_ID=$company_id");
 
+            $jobs[$key]["JOB_ID"] = $job["JOB_ID"];
             $jobs[$key]["COMPANY_NAME"] = $query->getResult()[0]->NAME;
             $jobs[$key]["PHOTO"] = $query->getResult()[0]->PHOTO;
             $jobs[$key]["LOCATION"] = $query->getResult()[0]->LOCATION;
@@ -29,37 +31,6 @@ class JobModel extends Model{
 
         return $jobs;
     }
-
-    /*
-    public function getJobsByQuery($query){
-        $query = strtolower($query);
-
-        $jobs = $this->findAll();
-
-        foreach($jobs as $key => $job){
-            $jobTitle = strtolower($job["TITLE"]);
-
-            if(strpos($jobTitle, $query) === false){
-                unset($jobs[$key]);
-            }
-        }
-
-        $db = \Config\Database::connect();
-        $db = db_connect();
-
-        foreach($jobs as $key => $job){
-            $company_id = $job["COMPANY_ID"];
-
-            $query = $db->query("SELECT NAME,PHOTO,LOCATION FROM COMPANY WHERE COMPANY_ID=$company_id");
-
-            $jobs[$key]["COMPANY_NAME"] = $query->getResult()[0]->NAME;
-            $jobs[$key]["PHOTO"] = $query->getResult()[0]->PHOTO;
-            $jobs[$key]["LOCATION"] = $query->getResult()[0]->LOCATION;
-        }
-
-        return $jobs;
-    }
-    */
 
     public function getJobsByQuery($query){
         $query_title = strtolower($query["TITLE"]);

@@ -90,6 +90,15 @@ $routes->post('/admin/employer_inquiry', 'AdminController::employer_inquiry_mana
 
 $routes->get('/test', 'HomeController::test');
 
+// Employer Site
+$routes->get('/employer/update_job', 'EmployerController::update_job');
+$routes->get('/employer/add_job', 'EmployerController::add_job');
+$routes->get('/employer/edit_applications', 'EmployerController::edit_applications');
+$routes->get('/employer/job_post', 'EmployerController::job_post');
+$routes->get('/employer/company_profile', 'EmployerController::company_profile');
+$routes->get('/employer/profile', 'EmployerController::profile');
+
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
