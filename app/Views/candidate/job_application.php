@@ -44,9 +44,9 @@
                         <td style="text-align: center">
                             <div style="display: flex; text-align: center">
                                 <a href="<?= base_url("job/details?job_id=" . $application["JOB_ID"]) ?>"><button class="btn btn-success">View</button></a>
-                                <form method="POST">
+                                <form id="delete-form" method="POST">
                                     <input name="application_id" type="text" value="<?= $application["APPLICATION_ID"] ?>" hidden>
-                                    <button class="btn btn-danger" style="margin-left: 15px">Delete</button>
+                                    <button class="btn btn-danger" type="button" style="margin-left: 15px" onclick="deletebtn_onclick()">Delete</button>
                                 </form>
                             </div>
                         </td>
@@ -55,4 +55,12 @@
             </tbody>
         </table>
     </div>
+
+    <script>
+        function deletebtn_onclick(){
+            if(confirm("Are you sure to delete application?")){
+                $("#delete-form").submit();
+            }
+        }
+    </script>
 <?php $this->endSection() ?>

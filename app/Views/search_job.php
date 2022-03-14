@@ -120,7 +120,7 @@
                         <?php if(!empty($jobs)): ?>
                             <?php foreach($jobs as $job): ?>
                                 <a class="job-container" href="<?= base_url('job/details?job_id=' . $job['JOB_ID']) ?>" ?>
-                                    <div style="width: 300px; height: 200px">
+                                    <div style="width: 25%; height: 200px">
                                         <img src="data:image;base64, <?= base64_encode($job["PHOTO"]) ?>" style="width: 100%; height: 100%;">
                                     </div>
                                     <div class="job-description">

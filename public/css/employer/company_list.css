@@ -6,13 +6,14 @@
 
 .company-container{
     margin-top: 60px;
+    margin-bottom: 60px;
 }
 
 #add-company-modal{
     padding: 30px;
-    padding-bottom: 25px;
+    padding-bottom: 45px;
     position: fixed;
-    top: 50%;
+    top: 53%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 40%;
@@ -23,7 +24,8 @@
 }
 
 .add-form{
-    margin-top: 25px;
+    margin-top: 10px;
+    height: 100%;
 }
 
 .company-photo{
@@ -51,7 +53,7 @@
 }
 
 td{
-    padding-bottom: 15px;
+    padding-bottom: 5px;
 }
 
 input[type=text], input[type=number]{

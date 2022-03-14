@@ -126,7 +126,7 @@
     <!--  Add Job Modal  -->
     <div id="add-job-modal" class=<?= isset($validation) ? "show" : "hide" ?>>
         <div style='text-align: center; font-size: 2em;'><b>Add Job</b></div>
-        <form class="add-job-form" method="POST" style="margin-top: 40px">
+        <form class="add-job-form" method="POST" style="margin-top: 20px">
             <table style="margin: auto; width: 100%;">
                 <tr>
                     <td>

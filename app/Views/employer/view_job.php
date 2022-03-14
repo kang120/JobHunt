@@ -82,8 +82,8 @@
             <?php else: ?>
                 <div class="applicant-container">
                     <table style="width: 100%">
-                        <col width="60%">
-                        <col width="40%">
+                        <col width="55%">
+                        <col width="45%">
                         <thead>
                             <th>Name</th>
                             <th>Response</th>
@@ -97,8 +97,8 @@
                                         <div>
                                             <input id="status-<?= $index ?>" name="status" type="text" value="<?= $applicant["STATUS"] ?>" hidden>
                                             <button class="btn status-btn <?= ($applicant["STATUS"] == "Success") ? "btn-success" : "btn-gray" ?>" onclick="acceptApplicant(<?= $index ?>)">Accept</button>
-                                            <button class="btn status-btn <?= ($applicant["STATUS"] == "Pending") ? "btn-primary" : "btn-gray" ?>" style="margin-left: 20px" onclick="pendingApplicant(<?= $index ?>)">Pending</button>
-                                            <button class="btn status-btn <?= ($applicant["STATUS"] == "Rejected") ? "btn-danger" : "btn-gray" ?>" style="margin-left: 20px" onclick="rejectApplicant(<?= $index ?>)">Reject</button>
+                                            <button class="btn status-btn <?= ($applicant["STATUS"] == "Pending") ? "btn-primary" : "btn-gray" ?>" style="margin-left: 5px" onclick="pendingApplicant(<?= $index ?>)">Pending</button>
+                                            <button class="btn status-btn <?= ($applicant["STATUS"] == "Rejected") ? "btn-danger" : "btn-gray" ?>" style="margin-left: 5px" onclick="rejectApplicant(<?= $index ?>)">Reject</button>
                                         </div>
                                     </td>
                                 </tr>

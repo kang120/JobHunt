@@ -67,9 +67,9 @@
 
     <!--  Add Company Modal  -->
     <div id="add-company-modal" class=<?= isset($validation) ? "show" : "hide" ?>>
-        <div style='text-align: center; font-size: 2em;'>Add Company</div>
+        <div style='text-align: center; font-size: 1.5em;'>Add Company</div>
         <form method="POST" class="add-form" enctype="multipart/form-data">
-            <div style="text-align: center; margin-bottom: 25px;">
+            <div style="text-align: center; margin-bottom: 10px;">
                 <input id="photo" name="photo" type="file" accept="image/*" hidden>
                 <div class="company-photo" onclick="changeCompanyPicture()">
                     <?php if(isset($photo)): ?>

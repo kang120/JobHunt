@@ -152,13 +152,14 @@ main{
 }
 
 .job-description{
+    width: 50%;
     margin-left: 40px;
 }
 
 .jobtype-label{
     position: absolute;
     right: 0;
-    margin-right: 70px;
+    margin-right: 30px;
     padding: 10 25px;
     border-radius: 20px;
     font-size: 1.1em;

@@ -38,7 +38,7 @@
     <form method="POST" id="question-modal" class="question-modal">
         <div style="font-size: 1.5em"><b>Ask a Question</b></div>
         <textarea name="question" id="question-box"></textarea>
-        <div style="width: 100%; display: flex; align-items: center; justify-content: center; margin-top: 30px">
+        <div style="width: 100%; display: flex; align-items: center; justify-content: center; position: absolute; bottom: 15px; left: 0">
             <button class="btn btn-success">Submit</button>
             <button class="btn btn-primary" style="margin-left: 20px" type="button" onclick="closeQuestionModal()">Cancel</button>
         </div>
