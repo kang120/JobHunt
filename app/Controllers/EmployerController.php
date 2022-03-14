@@ -3,313 +3,600 @@
 namespace App\Controllers;
 //use App\Libraries\Utilities;
 
+use App\Libraries\Utilities;
+use App\Models\ApplicationModel;
+use App\Models\CandidateModel;
 use App\Models\EmployerModel;
 use App\Models\CompanyModel;
+use App\Models\EmployerInquiryModel;
 use App\Models\JobModel;
 use App\Models\JobApplicationModel;
+use CodeIgniter\CLI\Commands;
 
 class EmployerController extends BaseController
 {
 
-	public function add_job()
-	{
+	public function login(){
+		helper("url");
 
-		$data["company_id"] = $_GET['company_id'];
-		return view("employer/add_job",$data);
-	}
-
-
-	public function update_job()
-	{
-		$jobModel = new JobModel();
-		$jobs = $jobModel->getJobsDetails();
-
-		$data["jobs"] = $jobs;
-
-		 if(isset($_GET["job_id"])){
-			$data["job_id"]=$_GET['job_id'];
-
-			return view("employer/update_job", $data);
+		if(isset($_GET["status"]) && $_GET["status"] == "signout"){
+			session()->remove("currentEmployer");
 		}
 
-		//return redirect()->to(base_url() . "/employer/profile");
-		return view("employer/update_job", $data); //use for self test page , delete this at the end
-	}
-
-	public function edit_applications()
-	{
-		$jobModel = new JobModel();
-		$jobs = $jobModel->getJobsDetails();
-
-		$jobApplicationModel = new JobApplicationModel();
-		$applicants = $jobApplicationModel->getJobsApplicants();
-
-		$data["jobs"] = $jobs;
-		$data["applicants"] = $applicants;
-
-		 if(isset($_GET["job_id"])){
-			$data["job_id"]=$_GET['job_id'];
-
-			return view("employer/edit_applications", $data);
-		}
-		
-		//return redirect()->to(base_url() . "/employer/job_post");
-		return view("employer/edit_applications", $data);//use for self test page , delete this at the end
-
-	}
-
-	public function job_post()
-	{
-		$jobModel = new JobModel();
-		$jobs = $jobModel->getJobsDetails();
-
-		$jobApplicationModel = new JobApplicationModel();
-		$applicants = $jobApplicationModel->getJobsApplicants();
-
-		$data["jobs"] = $jobs;
-		$data["applicants"] = $applicants;
-
-		 if(isset($_GET["job_id"])){
-			$data["job_id"]=$_GET['job_id'];
-
-			return view("employer/job_post", $data);
-		}
-
-		//return redirect()->to(base_url() . "/employer/profile");
-		return view("employer/job_post", $data); //use for self test page , delete this at the end
-
-
-	}	
-
-	public function company_profile()
-	{
-		$jobModel = new JobModel();
-		$jobs = $jobModel->getJobsDetails();
-		$jobsresults = $jobModel->getJobsResults();
-
-		$companyModel = new CompanyModel();
-		$companies = $companyModel->getCompanies();
-
-		$data["companies"] = $companies;
-		$data["jobs"] = $jobs;
-		$data["jobsresults"] = $jobsresults;
-
-
-		 if(isset($_GET["company_id"])){
-			$data["company_id"]=$_GET['company_id'];
-			$data["employer_login_id"]=$_GET['employer_login_id'];
-			
-			return view("employer/company_profile", $data);
-		}
-
-		//return redirect()->to(base_url() . "/employer/profile");
-		return view("employer/company_profile", $data); //use for self test page
-	}	
-
-	public function profile()
-	{
-		$employerModel = new EmployerModel();
-		$employers = $employerModel->getEmployers();
-
-		$companyModel = new CompanyModel();
-		$companies = $companyModel->getCompanies();
-
-		$data["companies"] = $companies;
-		$data["employers"] = $employers;
-
-
-		return view("employer/profile", $data);
-	}	
-
-	public function insert_new_company()
-	{
-	   $companyModel = new CompanyModel();
-
-        $data = [
-             "name"     =>$this->request->getPost("name"),
-             "location" =>$this->request->getPost("location"),
-             "industry" =>$this->request->getPost("industry"),
-             "size"     =>$this->request->getPost("size"),
-             "photo"    =>$this->request->getPost("photo"),
-             "employer_id"=>$this->request->getPost("employer_id")  
-        ];  
-
-        $companyModel->save($data);
-	   $employerLoginID=$this->request->getGet('employer_login_id');
-
-	   return redirect()->to(base_url()."/employer/profile?employer_login_id=".$employerLoginID);
-	}
-
-
-	public function edit_employer()
-	{
-    	helper(['form', 'url']);
-        
-        // $error = $this->validate([
-        //     'name' 	=> 'required|min_length[3]',
-        //     'email' => 'required|valid_email',
-        //     'gender'=> 'required'
-        // ]);
-
-        $EmployerModel = new EmployerModel();
-
-        $id = $this->request->getVar('employer_id'); //get from form
-
-        // if(!$error)
-        // {
-        // 	$data['user_data'] = $crudModel->where('id', $id)->first();
-        // 	$data['error'] = $this->validator;
-        // 	echo view('edit_data', $data);
-        // } 
-        // else 
-        // {
-        $data = [
-            'first_name' => $this->request->getVar('firstname'),
-            'last_name'  => $this->request->getVar('lastname'),
-            'birthday'  => $this->request->getVar('birthday'),
-            'gender'  => $this->request->getVar('gender'),
-            'phone'  => $this->request->getVar('phone'),
-            'email'  => $this->request->getVar('email'),
-            'password'  => $this->request->getVar('password1'),
-
-        ];
-
-        $EmployerModel->update($id, $data);
-        $employerLoginID = $this->request->getGet('employer_login_id'); //get from url, actually same
-
-        return redirect()->to(base_url()."/employer/profile?employer_login_id=".$employerLoginID);
-	}
-
-	public function edit_company()
-	{
-    	helper(['form', 'url']);
-
-        $CompanyModel = new CompanyModel();
-
-        $id = $this->request->getVar('company_id');
-
-        $data = [
-            'name' => $this->request->getVar('name'),
-            'location'  => $this->request->getVar('location'),
-            'industry'  => $this->request->getVar('industry'),
-            'size'  => $this->request->getVar('size'),
-            'photo'  => $this->request->getVar('photo')
-
-        ];
-
-        	$CompanyModel->update($id, $data);
-
-		$companyID=$this->request->getVar('company_id');
-		$employerID=$this->request->getVar('employer_login_id');
-
-        	return redirect()->to(base_url()."/employer/company_profile?company_id=".$companyID."&employer_login_id=".$employerID);
+        if($_POST){
+            $validation = $this->validate([
+                'email' => [
+                    'rules' => 'required|valid_email|is_not_unique[employer.email]',
+                    'errors' => [
+                        'required' => '* This field is required',
+                        'valid_email' => '* Email is invalid',
+                        'is_not_unique' => '* Account does not exist'
+                    ]
+                ],
+                'password' => [
+                    'rules' => 'required|min_length[8]|max_length[20]|alpha_numeric_punct',
+                    'errors' => [
+                        'required' => '* This field is required',
+                        'min_length' => '* Password must be 8-20 characters including numbers(0-9) and letters(a-z)',
+                        'max_length' => '* Password must be 8-20 characters including numbers(0-9) and letters(a-z)'
+                    ]
+                ]
+            ]);
+            
+            // invalid input
+            if(!$validation){
+                $data = [
+                    "currentEmployer" => null,
+                    "email" => $_POST["email"],
+                    "validation" => $this->validator
+                ];
     
+                return view("employer/login", $data);
+            }else{   // valid input and check password
+                $employerModel = new EmployerModel();
+                
+                $email = $_POST["email"];
+                $inputPassword = $_POST["password"];
+
+                $currentEmployer = $employerModel->getEmployerByEmail($email);
+
+                if($inputPassword == $currentEmployer["PASSWORD"]){
+                    session()->set("currentEmployer", $currentEmployer);
+                    return redirect()->to(base_url("employer/company/list"));
+                }else{
+                    $data = [
+                        "currentEmployer" => null,
+                        "email" => $_POST["email"],
+                        "passwordError" => "Incorrect password"
+                    ];
+
+                    return view("employer/login", $data);
+                }
+            }
+        }else{
+            $data = [
+                "currentEmployer" => null,
+            ];
+
+            return view("employer/login", $data);
+        }
 	}
 
-	public function edit_job()
-	{
-    	helper(['form', 'url']);
+	public function signup(){
+		helper("url");
 
-        $JobModel = new JobModel();
+        if($_POST){
+            $validation = $this->validate([
+                'firstname' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '* This field is required'
+                    ]
+                ],
+                'lastname' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '* This field is required'
+                    ]
+                ],
+                'email' => [
+                    'rules' => 'required|valid_email|is_unique[employer.email]',
+                    'errors' => [
+                        'required' => '* This field is required',
+                        'valid_email' => '* Email is invalid',
+                        'is_unique' => '* Email is already used'
+                    ]
+                ],
+                'password' => [
+                    'rules' => 'required|min_length[8]|max_length[20]|alpha_numeric_punct',
+                    'errors' => [
+                        'required' => '* This field is required',
+                        'min_length' => '* Password must be 8-20 characters including numbers(0-9) and letters(a-z)',
+                        'max_length' => '* Password must be 8-20 characters including numbers(0-9) and letters(a-z)'
+                    ]
+                ],
+				'password2' => [
+					'rules' => 'required|matches[password]',
+					'errors' => [
+						'required' => '* This field is required',
+						'matches' => '* Passwords are not same'
+					]
+				]
+            ]);
+            
+            // invalid input
+            if(!$validation){
+                $data = [
+                    "currentEmployer" => null,
+                    "firstname" => $_POST["firstname"],
+                    "lastname" => $_POST["lastname"],
+                    "email" => $_POST["email"],
+                    "validation" => $this->validator
+                ];
+    
+                return view("employer/signup", $data);
+            }else{   // valid input and go to email validation
+                $email = $_POST["email"];
 
-        $id = $this->request->getVar('job_id');
+                $tempEmployer = [
+                    "currentEmployer" => null,
+                    "first_name" => $_POST["firstname"],
+                    "last_name" => $_POST["lastname"],
+                    "email" => $_POST["email"],
+                    "password" => $_POST["password"]
+                ];
 
+                session()->setTempdata("signup_email", $email, 1200);
+                session()->set("tempEmployer", $tempEmployer);
 
+                return redirect()->to(base_url() . "/employer/signup/validation?email=".$email)->with("is_signup", true);
+            }
+        }else{
+            $data = [
+                "currentEmployer" => null
+            ];
+
+            return view("employer/signup", $data);
+        }
+	}
+
+	public function signup_validation(){
         $data = [
-        "title"     		=>$this->request->getPost("job-title"),
-        "salary" 			=>$this->request->getPost("salary"),
-        "description" 		=>$this->request->getPost("description"),
-        "scope"     		=>$this->request->getPost("scope"),
-        "requirement"    	=>$this->request->getPost("requirement"),
-        "type"    			=>$this->request->getPost("type"),
-        "specialization"   =>$this->request->getPost("specialization"),
-        "qualification"    =>$this->request->getPost("qualification"),
-        "career_level"   	=>$this->request->getPost("career"),             
-        "company_id"		=>$this->request->getPost("company_id")
+            "currentEmployer" => null
         ];
 
-        	$JobModel->update($id, $data);
+        // first time entry
+        if(session()->getFlashdata("is_signup")){
+            $verificationNumber = Utilities::getValidationNumber();
 
+            session()->setTempdata("signup_verification", $verificationNumber, 300);
+    
+            return view("employer/signup_validation", $data);
+        }else if($_POST){    // check input or resend email
+            if($_POST["status"] == "submit"){
+                $verificationNumber = session()->getTempdata("signup_verification");
+    
+                // correct validation
+                if($verificationNumber && $_POST["input"] == $verificationNumber){
+                    $currentEmployer = session()->get("tempEmployer");
+                    session()->remove("tempEmployer");
 
+                    // create new user in database
+                    $employerModel = new EmployerModel();
+                    $employerId = $employerModel->createEmployer($currentEmployer);
 
-		$companyID=$this->request->getVar('company_id');
-		$jobID=$this->request->getVar('job_id');
+                    // set current employer to session data
+                    $currentEmployer = $employerModel->getEmployerById($employerId);
+                    session()->set("currentEmployer", $currentEmployer);
 
-        	return redirect()->to(base_url()."/employer/job_post?job_id=".$jobID."&company_id=".$companyID);
-       
+                    return redirect()->to(base_url("employer/company/list"));
+                }else{   // wrong validation
+                    $data["send_email"] = "no";
+                    return view("employer/signup_validation", $data);
+                }
+            }else if($_POST["status"] == "resend"){   // resend email
+                $verificationNumber = Utilities::getValidationNumber();
+
+                session()->setTempdata("signup_verification", $verificationNumber, 300);
+        
+                return view("employer/signup_validation", $data);
+            }
+        }else{   // prevent access before sign up form
+            return redirect()->to(base_url() . "/employer/signup");
+        }
+    }
+
+	public function company_list(){
+		$currentEmployer = session()->get("currentEmployer");
+
+		if($currentEmployer == null){
+			return redirect()->to(base_url("employer/login"));
+		}
+
+		$employerID = $currentEmployer["EMPLOYER_ID"];
+
+		$companyModel = new CompanyModel();
+		$companies = $companyModel->getCompaniesByEmployerId($employerID);
+
+		$data = [
+			"currentEmployer" => $currentEmployer,
+			"companies" => $companies
+		];
+
+		if($_POST){
+			$validation = $this->validate([
+				"company_name" => [
+					"rules" => "required",
+					"errors" => [
+						"required" => "* This field is required"
+					]
+				],
+				"location" => [
+					"rules" => "required",
+					"errors" => [
+						"required" => "* This field is required"
+					]
+				],
+				"industry" => [
+					"rules" => "required",
+					"errors" => [
+						"required" => "* This field is required"
+					]
+				],
+				"min_employee" => [
+					"rules" => "required",
+					"errors" => [
+						"required" => "* This field is required"
+					]
+				]	,
+				"max_employee" => [
+					"rules" => "required",
+					"errors" => [
+						"required" => "* This field is required"
+					]
+				]	
+			]);
+	
+			if(!$validation){
+				$data2 = [
+					"currentEmployer" => $currentEmployer,
+					"validation" => $this->validator,
+					"company_name" => $_POST["company_name"],
+					"location" => $_POST["location"],
+					"industry" => $_POST["industry"],
+					"min_employee" => $_POST["min_employee"],
+					"max_employee" => $_POST["max_employee"]
+				];
+
+				$data = array_merge($data, $data2);
+
+				if(is_uploaded_file($_FILES["photo"]["tmp_name"])){
+					$data["photo"] = file_get_contents($_FILES["photo"]["tmp_name"]);
+					session()->set("tempPhoto", file_get_contents($_FILES["photo"]["tmp_name"]));
+				}else if(isset($_POST["encode_photo"]) && $_POST["encode_photo"] == "1"){
+					$data["photo"] = session()->get("tempPhoto");
+				}
+	
+				return view("employer/company_list", $data);
+			}
+
+			$size = $_POST["min_employee"] . "-" . $_POST["max_employee"];
+			$photo = null;
+			
+			if(is_uploaded_file($_FILES["photo"]["tmp_name"])){
+				$photo = file_get_contents($_FILES["photo"]["tmp_name"]);
+			}else{
+				$photo = file_get_contents(base_url("assets/blank_building.jpg"));
+			}
+
+			$data = [
+				"name" => $_POST['company_name'],
+				"location" => $_POST['location'],
+				"industry" => $_POST['industry'],
+				"size" => $size,
+				"photo" => $photo,
+				"employer_id" => $currentEmployer["EMPLOYER_ID"]
+			];
+
+			$companyModel = new CompanyModel();
+			$companyModel->createCompany($data);
+
+			return redirect()->to(base_url("employer/company/list"));
+		}
+
+		return view("employer/company_list", $data);
 	}
 
+	public function view_company($index){
+		$currentEmployer = session()->get("currentEmployer");
 
-	public function delete_company()
-	{
+		if($currentEmployer == null){
+			return redirect()->to(base_url("employer/login"));
+		}
 
-        $CompanyModel = new CompanyModel();
-        $companyID=$this->request->getVar('company_id');
-        $CompanyModel->where("company_id", $companyID)->delete();	
+		$employer_id = $currentEmployer["EMPLOYER_ID"];
 
-	   $employerLoginID=$this->request->getGet('employer_login_id');
-        return redirect()->to(base_url()."/employer/profile?employer_login_id=".$employerLoginID);
-	}
+		// find company
+		$companyModel = new CompanyModel();
+		$companies = $companyModel->getCompaniesByEmployerId($employer_id);
 
+		$company = $companies[$index];
 
-	public function delete_job()
-	{
+		// find company job
+		$jobModel = new JobModel();
+		$jobs = $jobModel->getJobsByCompanyId($company["COMPANY_ID"]);
+		
+		$data = [
+			"currentEmployer" => $currentEmployer,
+			"company" => $company,
+			"company_index" => $index,
+			"jobs" => $jobs
+		];
 
-        $JobModel = new JobModel();
-        $JobID=$this->request->getPost('job_id');
-        $JobModel->where("job_id", $JobID)->delete();	
+		if($_POST){
+			$validation = $this->validate([
+				"job_title" => [
+					"rules" => "required",
+					"errors" => [
+						"required" => "* This field is required"
+					]
+				],
+				"min_salary" => [
+					"rules" => "required",
+					"errors" => [
+						"required" => "* This field is required"
+					]
+				],
+				"max_salary" => [
+					"rules" => "required",
+					"errors" => [
+						"required" => "* This field is required"
+					]
+				],
+				"description" => [
+					"rules" => "required",
+					"errors" => [
+						"required" => "* This field is required"
+					]
+				],
+				"scope" => [
+					"rules" => "required",
+					"errors" => [
+						"required" => "* This field is required"
+					]
+				],
+				"requirement" => [
+					"rules" => "required",
+					"errors" => [
+						"required" => "* This field is required"
+					]
+				],
+				"type" => [
+					"rules" => "required",
+					"errors" => [
+						"required" => "* This field is required"
+					]
+				],
+				"specialization" => [
+					"rules" => "required",
+					"errors" => [
+						"required" => "* This field is required"
+					]
+				],
+				"qualification" => [
+					"rules" => "required",
+					"errors" => [
+						"required" => "* This field is required"
+					]
+					],
+				"career_level" => [
+					"rules" => "required",
+					"errors" => [
+						"required" => "* This field is required"
+					]
+				]
+			]);
 
-		$companyID=$this->request->getPost('company_id');
-		$employerID=$this->request->getPost('employer_login_id');
-        return redirect()->to(base_url()."/employer/company_profile?company_id=".$companyID."&employer_login_id=".$employerID);
-       // }
+			if(!$validation){
+				$data["validation"] = $this->validator;
+				$data["min_salary"] = $_POST["min_salary"];
+				$data["max_salary"] = $_POST["max_salary"];
+				$data["description"] = $_POST["description"];
+				$data["scope"] = $_POST["scope"];
+				$data["requirement"] = $_POST["requirement"];
+				$data["type"] = $_POST["type"];
+				$data["specialization"] = $_POST["specialization"];
+				$data["qualification"] = $_POST["qualification"];
+				$data["career_level"] = $_POST["career_level"];
 
+				return view("employer/view_company", $data);
+			}else{
+				$salary = "MYR " . $_POST["min_salary"] . " - " . $_POST["max_salary"] . " monthly";
+				$scope = implode("\n", $_POST["scope"]);
+				$requirement = implode("\n", $_POST["requirement"]);
 
-	}
+				$data = [
+					"title" => $_POST["job_title"],
+					"salary" => $salary,
+					"description" => $_POST["description"],
+					"scope" => $scope,
+					"requirement" => $requirement,
+					"type" => $_POST["type"],
+					"specialization" => $_POST["specialization"],
+					"qualification" => $_POST["qualification"],
+					"career_level" => $_POST["career_level"],
+					"company_id" => $company["COMPANY_ID"]
+				];
 
-	public function update_applications()
-	{
+				$jobModel->createJob($data);
 
-		$jobApplicationModel = new JobApplicationModel();
-		$applicants = $jobApplicationModel->getJobsApplicants();
-
-		$data["applicants"] = $applicants;
-
-
-
-		echo $this->request->getPost('total-data');
-		// echo $_POST['1'];
-		echo "here";
-
-		$total_applications = intval($this->request->getPost('total-data'));
-		$jobID = $this->request->getPost("job_id");
-
-		echo "start";
-		$results = array("PENDING","SUCCESS", "REJECTED");
-		foreach($results as $result){
-		foreach($applicants as $applicant){
-			if($applicant["JOB_ID"] == $jobID ){
-				if($applicant["RESULT"]==$result){
-				// echo $_POST[$applicant["APPLICATION_ID"]];
-
-
-		        $id = $applicant["APPLICATION_ID"];
-
-			        $data = ["result"=>$this->request->getPost($id),];
-
-		        	$jobApplicationModel->update($id, $data);
-
-				}	
+				return redirect()->to(base_url("employer/company/" . $index));
 			}
 		}
-		}
-		echo "end";
-		for ($i=0; $i < $total_applications; $i++) { 
-			//echo var_dump($applicants);
+
+		return view("employer/view_company", $data);
+	}
+
+	// always POST method
+	public function delete_job(){
+		$currentEmployer = session()->get("currentEmployer");
+
+		if($currentEmployer == null){
+			return redirect()->to(base_url("employer/login"));
 		}
 
-        return redirect()->to(base_url()."/employer/edit_applications?job_id=".$jobID);
-      
-	}		
+		$job_id = $_POST["job_id"];
+		$company_index = $_POST["company_index"];
 
+		$jobModel = new JobModel();
+		$jobModel->deleteJob($job_id);
+
+		return redirect()->to(base_url("employer/company/" . $company_index));
+	}
+
+	// always POST method
+	public function delete_company(){
+		$currentEmployer = session()->get("currentEmployer");
+
+		if($currentEmployer == null){
+			return redirect()->to(base_url("employer/login"));
+		}
+
+		$company_id = $_POST["company_id"];
+
+		$companyModel = new CompanyModel();
+		$companyModel->deleteCompany($company_id);
+
+		return redirect()->to(base_url("employer/company/list"));
+	}
+
+	// always POST method
+	public function update_company(){
+		$index = $_POST["index"];
+		$company_id = $_POST["company_id"];
+		$location = $_POST["location"];
+		$industry = $_POST["industry"];
+		$size = $_POST["size"];
+
+		$data = [
+			"company_id" => $company_id,
+			"location" => $location,
+			"industry" => $industry,
+			"size" => $size
+		];
+
+		$companyModel = new CompanyModel();
+		$companyModel->updateCompany($company_id, $data);
+
+		return redirect()->to(base_url("employer/company/" . $index));
+	}
+
+	// always POST method
+	public function edit_company_picture(){
+		$currentEmployer = session()->get("currentEmployer");
+
+		if($currentEmployer == null){
+			return redirect()->to(base_url("employer/login"));
+		}
+
+		$employer_id = $currentEmployer["EMPLOYER_ID"];
+
+		$photo = $_FILES["company_picture"]["tmp_name"];
+		$company_index = $_POST["company_index"];
+
+		// find company
+		$companyModel = new CompanyModel();
+		$company = $companyModel->getCompaniesByEmployerId($employer_id)[$company_index];
+		$company_id = $company["COMPANY_ID"];
+
+		$data = [
+			"photo" => file_get_contents($photo)
+		];
+
+		$companyModel->updateCompany($company_id, $data);
+
+		return redirect()->to(base_url("employer/company/$company_index"));
+	}
+
+	public function view_job($company_index, $job_index){
+		$currentEmployer = session()->get("currentEmployer");
+
+		$companyModel = new CompanyModel();
+		$company = $companyModel->getCompaniesByEmployerId($currentEmployer["EMPLOYER_ID"])[$company_index];
+
+		$jobModel = new JobModel();
+		$job = $jobModel->getJobsByCompanyId($company["COMPANY_ID"])[$job_index];
+		$job["SCOPE"] = explode("\n", $job["SCOPE"]);
+		$job["REQUIREMENT"] = explode("\n", $job["REQUIREMENT"]);
+
+		$applicationModel = new ApplicationModel();
+		$applications = $applicationModel->getApplicationByJobId($job["JOB_ID"]);
+
+		if($_POST){
+			$status = $_POST["application_status"];
+			$status_array = explode(",", $status);
+			$id_array = [];
+			
+			foreach($applications as $application){
+				array_push($id_array, $application["APPLICATION_ID"]);
+			}
+
+			$applicationModel->updateApplication($id_array, $status_array);
+
+			return redirect()->to(base_url("employer/company/$company_index/job/$job_index"));
+		}
+
+		$applicants = [];
+		$candidateModel = new CandidateModel();
+
+		foreach($applications as $application){
+			$candidate_id = $application["CANDIDATE_ID"];
+			$candidate = $candidateModel->getCandidateById($candidate_id);
+			$candidate["STATUS"] = $application["RESULT"];
+			array_push($applicants, $candidate);
+		}
+
+		$data = [
+			"currentEmployer" => $currentEmployer,
+			"company" => $company,
+			"job" => $job,
+			"applicants" => $applicants
+		];
+
+		return view("employer/view_job", $data);
+	}
+
+	public function inquiry(){
+		$currentEmployer = session()->get("currentEmployer");
+
+        if($currentEmployer == null){
+            return redirect()->to("employer/login");
+        }
+
+        $inquiryModel = new EmployerInquiryModel();
+
+        if($_POST){
+            $question = $_POST["question"];
+
+            if($question != ""){
+                $data = [
+                    "question" => $question,
+                    "employer_id" => $currentEmployer["EMPLOYER_ID"]
+                ];
+
+                $inquiryModel->createInquiry($data);
+            }
+
+            return redirect()->to("employer/inquiry");
+        }
+        
+        $inquiries = $inquiryModel->getInquiryByEmployerId($currentEmployer["EMPLOYER_ID"]);
+
+        $data = [
+            "currentEmployer" => $currentEmployer,
+            "inquiries" => $inquiries
+        ];
+
+        return view("employer/inquiry", $data);
+	}
 }

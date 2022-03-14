@@ -1,0 +1,120 @@
+.container{
+    padding-left: 15%;
+    padding-right: 15%;
+    margin-top: 50px;
+}
+
+.company-container{
+    margin-top: 60px;
+}
+
+#add-company-modal{
+    padding: 30px;
+    padding-bottom: 25px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40%;
+    height: 75%;
+    background: white;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.add-form{
+    margin-top: 25px;
+}
+
+.company-photo{
+    position: relative;
+    width: fit-content;
+    margin: auto;
+    border-radius: 50%;
+    cursor: hand;
+}
+
+.company-photo:hover{
+    opacity: 0.5;
+}
+
+.company-photo:hover .overlay-image{
+    opacity: 1;
+}
+
+.overlay-image{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+}
+
+td{
+    padding-bottom: 15px;
+}
+
+input[type=text], input[type=number]{
+    margin-top: 6px;
+    border: 1px solid rgb(208, 215, 222);
+    border-radius: 5px;
+    height: 30px;
+    padding: 15px 12px;
+}
+
+select{
+    margin-top: 6px;
+    border: 1px solid rgb(208, 215, 222);
+    border-radius: 5px;
+    height: 30px;
+    padding: 5px 12px;
+    cursor: hand;
+}
+
+.error-msg{
+    color: red;
+    font-size: 0.7em;
+    margin-top: 3px;
+}
+
+.fade{
+    opacity: 0.6;
+}
+
+.show{
+    display: block;
+}
+
+.hide{
+    display: none;
+}
+
+.company-box{
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 250px;
+    border: 2px solid #f0f0f0;
+    border-radius: 6px;
+    padding: 15px;
+    margin-top: 30px;
+}
+
+.company-box:hover{
+    background: #fcfcfc;
+    cursor: hand;
+}
+
+.company-img{
+    width: 25%;
+}
+
+.company-detail{
+    width: 70%;
+    margin-left: 50px;
+}
+
+.delete-company-btn{
+    margin-left: 50px;
+}

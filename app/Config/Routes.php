@@ -68,6 +68,31 @@ $routes->get('/candidate/inquiry', 'CandidateController::inquiry');
 $routes->post('/candidate/inquiry', 'CandidateController::inquiry');
 
 
+// Employer Site
+$routes->get('/employer/login', 'EmployerController::login');
+$routes->post('/employer/login', 'EmployerController::login');
+$routes->get('/employer/signup', 'EmployerController::signup');
+$routes->post('/employer/signup', 'EmployerController::signup');
+$routes->get('/employer/signup/validation', 'EmployerController::signup_validation');
+$routes->post('/employer/signup/validation', 'EmployerController::signup_validation');
+
+$routes->get("/employer/company/list", 'EmployerController::company_list');
+$routes->post("/employer/company/list", 'EmployerController::company_list');
+$routes->get("/employer/company/(:num)", 'EmployerController::view_company/$1');
+$routes->post("/employer/company/(:num)", 'EmployerController::view_company/$1');
+$routes->post("/employer/company/delete", 'EmployerController::delete_company');
+$routes->post("/employer/company/update", 'EmployerController::update_company');
+$routes->post("employer/company/picture/upload", "EmployerController::edit_company_picture");
+$routes->get("/employer/company/(:num)/job/(:num)", 'EmployerController::view_job/$1/$2');
+$routes->post("/employer/company/(:num)/job/(:num)", 'EmployerController::view_job/$1/$2');
+$routes->post("/employer/job/delete", 'EmployerController::delete_job');
+
+$routes->get('/candidate/profile', 'EmployerController::profile');
+
+$routes->get('/employer/inquiry', 'EmployerController::inquiry');
+$routes->post('/employer/inquiry', 'EmployerController::inquiry');
+
+
 // Admin Site
 $routes->get('/admin', 'AdminController::home');
 $routes->get('/admin/login', 'AdminController::login');
@@ -88,9 +113,13 @@ $routes->post('/admin/candidate_inquiry', 'AdminController::candidate_inquiry_ma
 $routes->post('/admin/employer_inquiry', 'AdminController::employer_inquiry_management');
 
 
-$routes->get('/test', 'HomeController::test');
 
-// Employer Site
+
+
+
+
+
+
 $routes->get('/employer/update_job', 'EmployerController::update_job');
 $routes->get('/employer/add_job', 'EmployerController::add_job');
 $routes->get('/employer/edit_applications', 'EmployerController::edit_applications');

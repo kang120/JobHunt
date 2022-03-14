@@ -36,9 +36,9 @@
                             <?php if(strtolower($application["RESULT"]) == "pending"): ?>
                                 <div style="color: #ff9d00"><b>Pending</b></div>
                             <?php elseif(strtolower($application["RESULT"]) == "success"): ?>
-                                <div style="color: #19e087"><b>Result</b></div>
+                                <div style="color: #19e087"><b>Success</b></div>
                             <?php else: ?>
-                                <div style="color: red"><b><?= $application["RESULT"] ?></b></div>
+                                <div style="color: red"><b>Rejected</b></div>
                             <?php endif ?>
                         </td>
                         <td style="text-align: center">

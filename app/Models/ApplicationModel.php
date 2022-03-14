@@ -36,8 +36,24 @@ class ApplicationModel extends Model{
         return $jobApplications;
     }
 
+    public function getApplicationByJobId($job_id){
+        $jobApplications = $this->where("job_id", $job_id)->findAll();
+
+        return $jobApplications;
+    }
+
     public function createApplication($data){
         return $this->insert($data, true);
+    }
+
+    public function updateApplication($id_array, $status_array){
+        foreach($id_array as $key => $id){
+            $data = [
+                "result" => $status_array[$key]
+            ];
+
+            $this->update($id, $data);
+        }
     }
 
     public function deleteApplication($application_id){

@@ -14,35 +14,23 @@ use App\Models\ProfileModel;
     </head>
 
     <body>
-        <?php 
-            $profile = null;
-            
-            if($currentUser != null){
-                $profileModel = new ProfileModel();
-                $profile = $profileModel->getProfileByCandidateId($currentUser["CANDIDATE_ID"]);
-            }
-        ?>
-
         <div class="header">
             <div class="navbar">
                 <img class="logo" src="<?= base_url("assets/logo.png") ?>">
                 <div class="nav nav-left">
-                    <a class="nav-item" href="<?= base_url("") ?>">Home</a>
-                    <a class="nav-item" href="<?= base_url("search_job") ?>">Search Jobs</a>
-                    <?php if(!is_null($currentUser)): ?>
-                        <a class="nav-item" href="<?= base_url("candidate/job/application") ?>">My Application</a>
-                        <a class="nav-item" href="<?= base_url("candidate/inquiry") ?>">Inquiry</a>
+                    <?php if(!is_null($currentEmployer)): ?>
+                        <a class="nav-item" href="<?= base_url("") ?>">My Company</a>
+                        <a class="nav-item" href="<?= base_url("") ?>">Inquiry</a>
                     <?php endif ?>
                 </div>
                 <div class="nav nav-right">
-                    <?php if(is_null($currentUser)): ?>
-                        <a class="nav-item" href="<?= base_url("candidate/login") ?>">Login</a>
-                        <a class="nav-item" href="<?= base_url("candidate/signup") ?>">Sign up</a>
-                        <a class="employer-nav" href="<?= base_url("employer/login") ?>">I'm Employer</a>
+                    <?php if(is_null($currentEmployer)): ?>
+                        <a class="nav-item" href="<?= base_url("employer/login") ?>">Login</a>
+                        <a class="nav-item" href="<?= base_url("employer/signup") ?>">Sign up</a>
+                        <a class="candidate-nav" href="<?= base_url("home") ?>">I'm Candidate</a>
                     <?php else: ?>
                         <div id="profile-nav" class="profile-nav">
-                            <div style="margin-right: 15px"><?= session()->get("currentUser")["FIRST_NAME"] ?></div>
-                            <img id="profile-nav-img" src="data:image;base64, <?= base64_encode($profile["PHOTO"]) ?>" width="30px" height ="30px" style="border-radius: 50%;">
+                            <div style="margin-right: 15px"><?= $currentEmployer["FIRST_NAME"] ?></div>
                             <div id="angle-down" style="padding-left: 10px;"><i class="fa-solid fa-angle-down fa-xs"></i></div>
                         </div>
                     <?php endif ?>

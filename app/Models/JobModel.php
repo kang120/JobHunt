@@ -5,8 +5,8 @@ use CodeIgniter\Model;
 class JobModel extends Model{
     protected $table = "job";
     protected $primaryKey = "job_id";
-    protected $field = ["title", "salary", "description", "scope", "requirement", "type", "specialization", "qualification", "career_level", "company_id", "company_name"];
-    protected $allowedFields = ["title", "salary", "description", "scope", "requirement", "type", "specialization", "qualification", "career_level", "company_id", "company_name"];
+    protected $field = ["title", "salary", "description", "scope", "requirement", "type", "specialization", "qualification", "career_level", "company_id"];
+    protected $allowedFields = ["title", "salary", "description", "scope", "requirement", "type", "specialization", "qualification", "career_level", "company_id"];
 
     public function getJobs(){
         return $this->findAll();
@@ -126,6 +126,24 @@ class JobModel extends Model{
         }else{
             return true;
         }
+    }
+
+    public function getJobsByCompanyId($company_id){
+        $jobs = $this->where("company_id", $company_id)->findAll();
+
+        if(empty($jobs)){
+            return null;
+        }
+
+        return $jobs;
+    }
+
+    public function createJob($data){
+        return $this->insert($data, true);
+    }
+
+    public function deleteJob($job_id){
+        return $this->delete($job_id);
     }
 }
 
