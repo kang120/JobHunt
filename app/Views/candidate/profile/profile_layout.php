@@ -93,7 +93,7 @@
                         </tr>
                         <tr>
                             <td class="icon-col"><i class="fa-solid fa-phone" style="margin-right: 15px"></i></td>
-                            <td><input class="form-input" name="phone" type="text" value="<?= !is_null($profile["PHONE"]) ? $profile["PHONE"] : "" ?>" placeholder="phone"></td>
+                            <td><input class="form-input" name="phone" type="number" value="<?= !is_null($profile["PHONE"]) ? $profile["PHONE"] : "" ?>" placeholder="phone"></td>
                         </tr>
                         <tr>
                             <td class="icon-col"><i class="fa-solid fa-location-dot" style="margin-right: 15px"></i></td>

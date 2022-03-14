@@ -182,7 +182,7 @@ class CandidateController extends BaseController
                     $profileModel = new ProfileModel();
                     $profileModel->createProfile($candidateId);
 
-                    return redirect()->to(base_url("employer/company"));
+                    return redirect()->to(base_url("candidate/signup/setup_profile"));
                 }else{   // wrong validation
                     $data["send_email"] = "no";
                     return view("candidate/signup_validation", $data);

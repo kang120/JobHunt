@@ -18,7 +18,7 @@
                 <label>Speaking (1-10)</label>
             </div>
             <div class="col-75">
-                <input class="form-input" name="speaking" type="text" value="<?= isset($validation) ? $speaking : "" ?>">
+                <input class="form-input" name="speaking" type="number" min="1" max="10" value="<?= isset($validation) ? $speaking : "" ?>">
             </div>
         </div>
         <div class="error-msg"><?= isset($validation) ? $validation->getError("speaking") : "" ?></div>
@@ -27,7 +27,7 @@
                 <label>Writing (1-10)</label>
             </div>
             <div class="col-75">
-                <input class="form-input" name="writing" type="text" value="<?= isset($validation) ? $writing : "" ?>">
+                <input class="form-input" name="writing" type="number" min="1" max="10" value="<?= isset($validation) ? $writing : "" ?>">
             </div>
         </div>
         <div class="error-msg"><?= isset($validation) ? $validation->getError("writing") : "" ?></div>
@@ -36,7 +36,7 @@
                 <label>Reading (1-10)</label>
             </div>
             <div class="col-75">
-                <input class="form-input" name="reading" type="text" value="<?= isset($validation) ? $reading : "" ?>">
+                <input class="form-input" name="reading" type="number" min="1" max="10" value="<?= isset($validation) ? $reading : "" ?>">
             </div>
         </div>
         <div class="error-msg"><?= isset($validation) ? $validation->getError("reading") : "" ?></div>

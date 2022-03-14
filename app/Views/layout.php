@@ -1,10 +1,8 @@
 <html>
     <head>
-        <?php
+        <?php $this->renderSection("title") ?>
 
-use App\Models\ProfileModel;
-
- $this->renderSection("title") ?>
+        <link rel="icon" href="<?= base_url("assets/icon/icon.png") ?>">
         <link rel="stylesheet" href=<?= base_url("css/main.css") ?>>
         <link rel="stylesheet" href=<?= base_url("css/button.css") ?>>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -15,6 +13,8 @@ use App\Models\ProfileModel;
 
     <body>
         <?php 
+            use App\Models\ProfileModel;
+
             $profile = null;
             
             if($currentUser != null){

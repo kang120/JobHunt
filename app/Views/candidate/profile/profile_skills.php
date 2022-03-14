@@ -18,7 +18,7 @@
                 <label>Proficiency (1-10)</label>
             </div>
             <div class="col-75">
-                <input class="form-input" name="proficiency" type="text">
+                <input class="form-input" name="proficiency" type="number" min="1" max="10">
             </div>
         </div>
         <div class="error-msg"><?= isset($validation) ? $validation->getError("proficiency") : "" ?></div>

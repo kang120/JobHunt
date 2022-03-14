@@ -97,9 +97,9 @@
                                 <a class="job-box" href="<?= base_url("employer/company/$company_index/job/$index") ?>">
                                     <div style="display: flex; align-items: center">
                                         <div style="font-size: 1.5em"><b><?= $job["TITLE"] ?></b></div>
-                                        <?php if(strtolower($job["TYPE"]) == "fulltime"): ?>
+                                        <?php if(strtolower($job["TYPE"]) == "full time"): ?>
                                             <div class="jobtype-label fulltime-label">Full Time</div>
-                                        <?php elseif(strtolower($job["TYPE"]) == "parttime"): ?>
+                                        <?php elseif(strtolower($job["TYPE"]) == "part time"): ?>
                                             <div class="jobtype-label parttime-label">Part Time</div>
                                         <?php else: ?>
                                             <div class="jobtype-label internship-label">Internship</div>
